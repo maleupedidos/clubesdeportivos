@@ -618,7 +618,6 @@
         <span class="chip">2 pizzas grandes</span>
         <span class="chip chip-prep">Horno o parrilla · 12 min</span>
       </div>
-      <span class="stock-indicator" id="stock-1"></span>
       <div class="product-footer">
         <span class="product-price" id="product-price-1">$10.000</span>
         <button class="add-btn" id="add-btn-1" onclick="addToCart(1)">+ Agregar</button>
@@ -628,8 +627,15 @@
 
 
   <article class="product-card" id="product-card-2">
-    <div class="product-thumb" style="background:#FFF0E6">
-      <span class="product-thumb-emoji">🧀</span>
+    <div class="product-thumb has-pack" style="background:#F0F7EE"
+         onclick="this.classList.toggle('flipped')">
+      <span class="product-thumb-emoji">🍕</span>
+      <img class="product-thumb-img" src="img/pack-jamon-queso-cocida.jpg"
+           alt="Pack Jamón y Queso x2" loading="lazy" style="object-position:center 45%"
+           onerror="this.remove()">
+      <img class="product-thumb-img product-thumb-pack" src="img/pack-jamon-queso.jpg"
+           alt="Pack Jamón y Queso x2 — pack" loading="lazy" onerror="this.remove()">
+      <span class="thumb-toggle-hint">📦 ver pack</span>
     </div>
     <div class="product-body">
       <h3 class="product-name">Pack Jamón y Queso x2</h3>
@@ -639,7 +645,6 @@
         <span class="chip">2 pizzas grandes</span>
         <span class="chip chip-prep">Horno o parrilla · 12 min</span>
       </div>
-      <span class="stock-indicator" id="stock-2"></span>
       <div class="product-footer">
         <span class="product-price" id="product-price-2">$10.000</span>
         <button class="add-btn" id="add-btn-2" onclick="addToCart(2)">+ Agregar</button>
@@ -648,8 +653,15 @@
   </article>
 
   <article class="product-card" id="product-card-3">
-    <div class="product-thumb" style="background:#F0F5EE">
-      <span class="product-thumb-emoji">🧅</span>
+    <div class="product-thumb has-pack" style="background:#EEF3F8"
+         onclick="this.classList.toggle('flipped')">
+      <span class="product-thumb-emoji">🍕</span>
+      <img class="product-thumb-img" src="img/pack-cebolla-queso-cocida.jpg"
+           alt="Pack Cebolla y Queso x2" loading="lazy" style="object-position:center 50%"
+           onerror="this.remove()">
+      <img class="product-thumb-img product-thumb-pack" src="img/pack-cebolla-queso.jpg"
+           alt="Pack Cebolla y Queso x2 — pack" loading="lazy" onerror="this.remove()">
+      <span class="thumb-toggle-hint">📦 ver pack</span>
     </div>
     <div class="product-body">
       <h3 class="product-name">Pack Cebolla y Queso x2</h3>
@@ -659,7 +671,6 @@
         <span class="chip">2 pizzas grandes</span>
         <span class="chip chip-prep">Horno o parrilla · 12 min</span>
       </div>
-      <span class="stock-indicator" id="stock-3"></span>
       <div class="product-footer">
         <span class="product-price" id="product-price-3">$10.000</span>
         <button class="add-btn" id="add-btn-3" onclick="addToCart(3)">+ Agregar</button>
@@ -854,17 +865,15 @@
 
 /* ── CONFIG ──────────────────────────────────────────────── */
 const PRODUCTOS = [
-  { id: 1, nombre: 'Pack Muzarella x2',     precio: 10000, stockId: 5 },
-  { id: 2, nombre: 'Pack Jamón y Queso x2', precio: 10000, stockId: 6 },
-  { id: 3, nombre: 'Pack Cebolla y Queso x2', precio: 10000, stockId: 7 },
+  { id: 1, nombre: 'Pack Muzarella x2',       precio: 10000 },
+  { id: 2, nombre: 'Pack Jamón y Queso x2',   precio: 10000 },
+  { id: 3, nombre: 'Pack Cebolla y Queso x2', precio: 10000 },
 ];
 const WA_NUMBER       = "5491155038905";
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7HR-op6KSz2a-B2Dvloua6sJ63tsUmkEOWJACqQHAHeG8hOZ3a5HCNjiljjTpWSs/exec";
 const HORARIOS        = { "Viernes": "a coordinar" };
-const STOCK_CSV_URL   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRU90rLSsMLIZysclthumNVS-wWma0g0ugJJlUBkO_lk1e_xhjmoIbqpmPFpTSVdYkyI1rk4BUCJyrd/pub?gid=0&single=true&output=csv";
 
 let cart      = {};   // { productId: qty }
-let stockMap  = {};   // { stockId: disponible }
 let _enviando = false;
 
 function $id(id){ return document.getElementById(id); }
@@ -882,12 +891,7 @@ function sugerencia(packs) {
 /* ── CARRITO ─────────────────────────────────────────────── */
 function addToCart(pid) {
   const prod = PRODUCTOS.find(p => p.id === pid);
-  const stockDisp = stockMap[prod.stockId];
-  const qty = cart[pid] || 0;
-  if (stockDisp !== undefined && qty >= stockDisp) {
-    toast('⚠️ No hay más stock'); return;
-  }
-  cart[pid] = qty + 1;
+  cart[pid] = (cart[pid] || 0) + 1;
   updateUI();
   toast('✓ ' + prod.nombre + ' agregado');
 }
@@ -921,22 +925,18 @@ function updateUI() {
   PRODUCTOS.forEach(prod => {
     const pid = prod.id;
     const qty = cart[pid] || 0;
-    const stockDisp = stockMap[prod.stockId];
-    const sinStock = stockDisp !== undefined && qty >= stockDisp;
     const footer = $id('product-card-' + pid).querySelector('.product-footer');
     if (qty === 0) {
       footer.innerHTML = `
         <span class="product-price">${ars(prod.precio)}</span>
-        <button class="add-btn" id="add-btn-${pid}" onclick="addToCart(${pid})"${sinStock?' disabled':''}>
-          ${sinStock ? 'Sin stock' : '+ Agregar'}
-        </button>`;
+        <button class="add-btn" id="add-btn-${pid}" onclick="addToCart(${pid})">+ Agregar</button>`;
     } else {
       footer.innerHTML = `
         <span class="product-price">${ars(prod.precio)}</span>
         <div class="card-qty-controls">
           <button class="card-qty-btn remove" onclick="changeQty(${pid},-1)" aria-label="Quitar">−</button>
           <span class="card-qty-val">${qty}</span>
-          <button class="card-qty-btn" onclick="changeQty(${pid},+1)" aria-label="Agregar"${sinStock?' disabled':''}>+</button>
+          <button class="card-qty-btn" onclick="changeQty(${pid},+1)" aria-label="Agregar">+</button>
         </div>`;
     }
   });
@@ -1111,7 +1111,7 @@ function enviarPedido() {
       lote:   deporte + ' · ' + grupo,
       telefono, dia:'Viernes', horario:'a coordinar',
       pago: pagoEl.value,
-      items: items.map(prod => ({ id: prod.stockId, nombre: prod.nombre, qty: cart[prod.id], precio: prod.precio })),
+      items: items.map(prod => ({ id: prod.id, nombre: prod.nombre, qty: cart[prod.id], precio: prod.precio })),
       total
     })
   }).catch(()=>{});
@@ -1154,34 +1154,9 @@ function loadClientData() {
   } catch(e){}
 }
 
-/* ── STOCK ───────────────────────────────────────────────── */
-async function fetchStock() {
-  if (!STOCK_CSV_URL) return;
-  try {
-    const res  = await fetch(STOCK_CSV_URL);
-    const text = await res.text();
-    const stockIds = new Set(PRODUCTOS.map(p => p.stockId));
-    text.trim().split('\n').slice(1).forEach(row => {
-      const cols = row.split(',').map(c=>c.replace(/^"|"$/g,'').trim());
-      const id=parseInt(cols[0]), disp=parseInt(cols[4]);
-      if (stockIds.has(id) && !isNaN(disp)) {
-        stockMap[id] = disp;
-        const prod = PRODUCTOS.find(p => p.stockId === id);
-        if (!prod) return;
-        const el = $id('stock-' + prod.id);
-        if (!el) return;
-        if (disp === 0)     el.innerHTML = '<span class="stock-badge stock-out">🚫 Sin stock</span>';
-        else if (disp <= 5) el.innerHTML = `<span class="stock-badge stock-low">⚡ Últimos ${disp} packs</span>`;
-        else                el.innerHTML = `<span class="stock-badge stock-ok">✓ ${disp} disponibles</span>`;
-      }
-    });
-  } catch(e){ console.warn('fetchStock:',e); }
-}
-
 /* ── INIT ────────────────────────────────────────────────── */
 loadClientData();
 updateUI();
-fetchStock();
 $id('cart-badge').style.display = 'none';
 
 </script>
