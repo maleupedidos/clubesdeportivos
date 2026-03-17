@@ -9,7 +9,7 @@
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://maleupedidos.github.io/clubesdeportivos/" />
   <meta property="og:title"       content="Maleu Clubes — El tercer tiempo, resuelto." />
-  <meta property="og:description" content="Pedís en la semana. Llegás al club y ya está listo para todo el equipo." />
+  <meta property="og:description" content="Pedís en la semana. Llegás al club y en minutos están comiendo." />
   <meta property="og:image"       content="https://maleupedidos.github.io/clubesdeportivos/img/pack-muzarella.jpg" />
   <meta property="og:locale"      content="es_AR" />
   <meta property="og:site_name"   content="Maleu" />
@@ -510,10 +510,10 @@
 
 <!-- ═══ HERO ══════════════════════════════════════════════════ -->
 <section class="hero">
-  <div class="hero-badge">⚽ Maleu Clubes</div>
+  <div class="hero-badge">Maleu 🤝🏻 Clubes Deportivos</div>
   <h1>El tercer tiempo,<br><span>resuelto.</span></h1>
   <p class="hero-sub">
-    Pedís en la semana. Llegás al club y ya está listo<br>para todo el equipo.
+    Pedís en la semana. Llegás al club y en minutos están comiendo.
   </p>
   <a href="#catalogo" class="hero-cta">Armar el pedido →</a>
   <div class="hero-trust">
@@ -542,14 +542,14 @@
       </div>
       <div class="how-step">
         <span class="how-step-num">03</span>
-        <div class="how-step-title">Terminó el partido → comen al toque</div>
+        <div class="how-step-title">Terminó el partido → y en minutos están todos comiendo</div>
         <div class="how-step-desc">Al horno o a la parrilla en 12 minutos. Nadie se queda sin comer.</div>
       </div>
     </div>
     <!-- Deadline badge — genera urgencia clara -->
     <div class="deadline-badge">
       <span>⏰</span>
-      <div>Pedidos hasta el <strong>jueves a la mañana</strong> · Entrega el viernes en el club</div>
+      <div>Encargá tu pedido hasta el <strong>miércoles a la noche</strong></div>
     </div>
   </div>
 </section>
@@ -562,7 +562,10 @@
   <!-- Helper de decisión — responde "¿cuánto pido?" antes de que lo pregunten -->
   <div class="helper-banner">
     <span>💡</span>
-    <div>Sugerido: <strong>1 pack cada 2–3 personas.</strong> ¿20 jugadores? → Pedí 8 packs. ¿30? → 12 packs.</div>
+    <div>
+      <div>Varones: <strong>1 pizza por jugador</strong> (1 pack = mínimo 2 personas)</div>
+      <div>Mujeres: <strong>1 pizza cada 2 jugadoras</strong></div>
+    </div>
   </div>
 
   <article class="product-card" id="product-card-1">
@@ -587,12 +590,53 @@
       <span class="stock-indicator" id="stock-1"></span>
       <div class="product-footer">
         <span class="product-price" id="product-price-1">$10.000</span>
-        <button class="add-btn" id="add-btn-1" onclick="addToCart()">+ Agregar</button>
+        <button class="add-btn" id="add-btn-1" onclick="addToCart(1)">+ Agregar</button>
       </div>
     </div>
   </article>
 
-  <!-- Sugerencia dinámica según cantidad en carrito -->
+
+  <article class="product-card" id="product-card-2">
+    <div class="product-thumb" style="background:#FFF0E6">
+      <span class="product-thumb-emoji">🧀</span>
+    </div>
+    <div class="product-body">
+      <h3 class="product-name">Pack Jamón y Queso x2</h3>
+      <p class="product-desc">Dos pizzas de jamón y queso. Pre-cocidas, listas para el horno o la parrilla. Clásico que no falla.</p>
+      <div class="product-chips">
+        <span class="chip">Para 2–3 personas</span>
+        <span class="chip">2 pizzas grandes</span>
+        <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+      </div>
+      <span class="stock-indicator" id="stock-2"></span>
+      <div class="product-footer">
+        <span class="product-price" id="product-price-2">$10.000</span>
+        <button class="add-btn" id="add-btn-2" onclick="addToCart(2)">+ Agregar</button>
+      </div>
+    </div>
+  </article>
+
+  <article class="product-card" id="product-card-3">
+    <div class="product-thumb" style="background:#F0F5EE">
+      <span class="product-thumb-emoji">🧅</span>
+    </div>
+    <div class="product-body">
+      <h3 class="product-name">Pack Cebolla y Queso x2</h3>
+      <p class="product-desc">Dos pizzas de cebolla y queso. Pre-cocidas, listas para el horno o la parrilla. Perfectas para el tercer tiempo.</p>
+      <div class="product-chips">
+        <span class="chip">Para 2–3 personas</span>
+        <span class="chip">2 pizzas grandes</span>
+        <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+      </div>
+      <span class="stock-indicator" id="stock-3"></span>
+      <div class="product-footer">
+        <span class="product-price" id="product-price-3">$10.000</span>
+        <button class="add-btn" id="add-btn-3" onclick="addToCart(3)">+ Agregar</button>
+      </div>
+    </div>
+  </article>
+
+  <!-- Sugerencia dinámica según cantidad total en carrito -->
   <div class="qty-suggestion" id="qty-suggestion"></div>
 </div>
 
@@ -777,21 +821,26 @@
 <script>
 
 /* ── CONFIG ──────────────────────────────────────────────── */
-const PRECIO_PACK   = 10000;
-const WA_NUMBER     = "5491155038905";
+const PRODUCTOS = [
+  { id: 1, nombre: 'Pack Muzarella x2',     precio: 10000, stockId: 5 },
+  { id: 2, nombre: 'Pack Jamón y Queso x2', precio: 10000, stockId: 6 },
+  { id: 3, nombre: 'Pack Cebolla y Queso x2', precio: 10000, stockId: 7 },
+];
+const WA_NUMBER       = "5491155038905";
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7HR-op6KSz2a-B2Dvloua6sJ63tsUmkEOWJACqQHAHeG8hOZ3a5HCNjiljjTpWSs/exec";
-const HORARIOS      = { "Viernes": "a coordinar" };
-const STOCK_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRU90rLSsMLIZysclthumNVS-wWma0g0ugJJlUBkO_lk1e_xhjmoIbqpmPFpTSVdYkyI1rk4BUCJyrd/pub?gid=0&single=true&output=csv";
+const HORARIOS        = { "Viernes": "a coordinar" };
+const STOCK_CSV_URL   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRU90rLSsMLIZysclthumNVS-wWma0g0ugJJlUBkO_lk1e_xhjmoIbqpmPFpTSVdYkyI1rk4BUCJyrd/pub?gid=0&single=true&output=csv";
 
-let qty       = 0;  // cantidad de packs en el carrito
+let cart      = {};   // { productId: qty }
+let stockMap  = {};   // { stockId: disponible }
 let _enviando = false;
-let stockDisp = undefined; // stock disponible del producto id:5 (Pack Muzarella x2)
 
 function $id(id){ return document.getElementById(id); }
 function ars(n) { return '$' + n.toLocaleString('es-AR'); }
+function totalCart()  { return PRODUCTOS.reduce((s,p) => s + (cart[p.id]||0) * p.precio, 0); }
+function totalPacks() { return Object.values(cart).reduce((s,v) => s + v, 0); }
 
 /* ── SUGERENCIA DINÁMICA DE CANTIDAD ─────────────────────── */
-/* Responde "¿alcanza para mi equipo?" en tiempo real */
 function sugerencia(packs) {
   if (packs === 0) return '';
   const min = packs * 2, max = packs * 3;
@@ -799,62 +848,71 @@ function sugerencia(packs) {
 }
 
 /* ── CARRITO ─────────────────────────────────────────────── */
-function addToCart() {
+function addToCart(pid) {
+  const prod = PRODUCTOS.find(p => p.id === pid);
+  const stockDisp = stockMap[prod.stockId];
+  const qty = cart[pid] || 0;
   if (stockDisp !== undefined && qty >= stockDisp) {
     toast('⚠️ No hay más stock'); return;
   }
-  qty++;
+  cart[pid] = qty + 1;
   updateUI();
-  toast('✓ Pack Muzarella x2 agregado');
+  toast('✓ ' + prod.nombre + ' agregado');
 }
-function changeQty(delta) {
-  qty = Math.max(0, qty + delta);
+function changeQty(pid, delta) {
+  const qty = (cart[pid] || 0) + delta;
+  if (qty <= 0) delete cart[pid];
+  else cart[pid] = qty;
   updateUI();
 }
 
 /* ── UPDATE UI ───────────────────────────────────────────── */
 function updateUI() {
-  const total = qty * PRECIO_PACK;
+  const packs = totalPacks();
+  const total = totalCart();
 
   // Badge header
   const badge = $id('cart-badge');
-  badge.textContent = qty;
-  badge.style.display = qty > 0 ? 'flex' : 'none';
+  badge.textContent = packs;
+  badge.style.display = packs > 0 ? 'flex' : 'none';
 
   // Barra sticky móvil
   const bar = $id('cart-bar');
-  bar.style.display = qty > 0 ? 'flex' : 'none';
-  $id('cart-bar-count').textContent = qty + ' pack' + (qty!==1?'s':'');
+  bar.style.display = packs > 0 ? 'flex' : 'none';
+  $id('cart-bar-count').textContent = packs + ' pack' + (packs!==1?'s':'');
   $id('cart-bar-total').textContent = ars(total);
 
   // Total botón WA
-  $id('wa-btn-total').textContent = qty > 0 ? ars(total) : '';
+  $id('wa-btn-total').textContent = packs > 0 ? ars(total) : '';
 
-  // Botón add en la card
-  const addBtn = $id('add-btn-1');
-  const sinStock = stockDisp !== undefined && qty >= stockDisp;
-  if (qty === 0) {
-    addBtn.disabled = sinStock;
-    addBtn.textContent = sinStock ? 'Sin stock' : '+ Agregar';
-    $id('product-card-1').querySelector('.product-footer').innerHTML = `
-      <span class="product-price">$10.000</span>
-      <button class="add-btn" id="add-btn-1" onclick="addToCart()"${sinStock?' disabled':''}>
-        ${sinStock ? 'Sin stock' : '+ Agregar'}
-      </button>`;
-  } else {
-    $id('product-card-1').querySelector('.product-footer').innerHTML = `
-      <span class="product-price">$10.000</span>
-      <div class="card-qty-controls">
-        <button class="card-qty-btn remove" onclick="changeQty(-1)" aria-label="Quitar">−</button>
-        <span class="card-qty-val">${qty}</span>
-        <button class="card-qty-btn" onclick="changeQty(+1)" aria-label="Agregar"${sinStock?' disabled':''}>+</button>
-      </div>`;
-  }
+  // Footers de cada producto
+  PRODUCTOS.forEach(prod => {
+    const pid = prod.id;
+    const qty = cart[pid] || 0;
+    const stockDisp = stockMap[prod.stockId];
+    const sinStock = stockDisp !== undefined && qty >= stockDisp;
+    const footer = $id('product-card-' + pid).querySelector('.product-footer');
+    if (qty === 0) {
+      footer.innerHTML = `
+        <span class="product-price">${ars(prod.precio)}</span>
+        <button class="add-btn" id="add-btn-${pid}" onclick="addToCart(${pid})"${sinStock?' disabled':''}>
+          ${sinStock ? 'Sin stock' : '+ Agregar'}
+        </button>`;
+    } else {
+      footer.innerHTML = `
+        <span class="product-price">${ars(prod.precio)}</span>
+        <div class="card-qty-controls">
+          <button class="card-qty-btn remove" onclick="changeQty(${pid},-1)" aria-label="Quitar">−</button>
+          <span class="card-qty-val">${qty}</span>
+          <button class="card-qty-btn" onclick="changeQty(${pid},+1)" aria-label="Agregar"${sinStock?' disabled':''}>+</button>
+        </div>`;
+    }
+  });
 
-  // Sugerencia bajo la card
+  // Sugerencia bajo los productos
   const sug = $id('qty-suggestion');
-  if (qty > 0) {
-    sug.textContent = sugerencia(qty);
+  if (packs > 0) {
+    sug.textContent = sugerencia(packs);
     sug.classList.add('visible');
   } else {
     sug.classList.remove('visible');
@@ -862,25 +920,30 @@ function updateUI() {
 
   // Cuerpo del carrito
   const bodyEl = $id('cart-body'), footEl = $id('cart-foot');
-  if (qty === 0) {
+  const items = PRODUCTOS.filter(p => cart[p.id]);
+  if (items.length === 0) {
     bodyEl.innerHTML = '<div class="cart-empty-msg"><span>🍕</span>Todavía no agregaste packs.</div>';
     footEl.style.display = 'none';
   } else {
     footEl.style.display = 'block';
-    bodyEl.innerHTML = `<div class="cart-item">
-      <span class="cart-item-emoji">🍕</span>
-      <div class="cart-item-info">
-        <div class="cart-item-name">Pack Muzarella x2</div>
-        <div class="cart-item-sub">${ars(PRECIO_PACK)} c/u · <strong>${ars(total)}</strong></div>
-      </div>
-      <div class="qty-controls">
-        <button class="qty-btn" onclick="changeQty(-1)">−</button>
-        <span class="qty-val">${qty}</span>
-        <button class="qty-btn" onclick="changeQty(+1)">+</button>
-      </div>
-    </div>`;
+    bodyEl.innerHTML = items.map(prod => {
+      const qty = cart[prod.id];
+      const subtotal = qty * prod.precio;
+      return `<div class="cart-item">
+        <span class="cart-item-emoji">🍕</span>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${prod.nombre}</div>
+          <div class="cart-item-sub">${ars(prod.precio)} c/u · <strong>${ars(subtotal)}</strong></div>
+        </div>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="changeQty(${prod.id},-1)">−</button>
+          <span class="qty-val">${qty}</span>
+          <button class="qty-btn" onclick="changeQty(${prod.id},+1)">+</button>
+        </div>
+      </div>`;
+    }).join('');
     $id('cart-total').textContent = ars(total);
-    $id('cart-suggestion').textContent = sugerencia(qty);
+    $id('cart-suggestion').textContent = sugerencia(packs);
   }
 
   updateFormSummary();
@@ -888,12 +951,15 @@ function updateUI() {
 
 function updateFormSummary() {
   const el = $id('form-summary');
-  if (qty === 0) {
+  const items = PRODUCTOS.filter(p => cart[p.id]);
+  if (items.length === 0) {
     el.innerHTML = '<p class="summary-empty">Agregá packs para ver el resumen.</p>'; return;
   }
-  el.innerHTML =
-    `<div class="summary-line"><span>Pack Muzarella x2 <strong>×${qty}</strong></span><span>${ars(qty*PRECIO_PACK)}</span></div>` +
-    `<div class="summary-line total-line"><span>Total</span><span>${ars(qty*PRECIO_PACK)}</span></div>`;
+  const lineas = items.map(prod =>
+    `<div class="summary-line"><span>${prod.nombre} <strong>×${cart[prod.id]}</strong></span><span>${ars(cart[prod.id]*prod.precio)}</span></div>`
+  ).join('');
+  el.innerHTML = lineas +
+    `<div class="summary-line total-line"><span>Total</span><span>${ars(totalCart())}</span></div>`;
 }
 
 /* ── CART TOGGLE ─────────────────────────────────────────── */
@@ -948,7 +1014,7 @@ function enviarPedido() {
    ['f-deporte','err-deporte'],['f-grupo','err-grupo'],['f-dia','err-dia']].forEach(([f,e]) => clearError(f,e));
   $id('err-pago').classList.remove('visible');
 
-  if (qty === 0) { toast('⚠️ Agregá al menos 1 pack'); return; }
+  if (totalPacks() === 0) { toast('⚠️ Agregá al menos 1 pack'); return; }
 
   let first = null;
   if (!nombre)   { showError('f-nombre','err-nombre');     if(!first) first=$id('f-nombre'); }
@@ -966,7 +1032,10 @@ function enviarPedido() {
   try { localStorage.setItem('maleu_club', JSON.stringify({ nombre, telefono, club, deporte, grupo })); } catch(e){}
 
   // Construir mensaje WhatsApp
-  const total = ars(qty * PRECIO_PACK);
+  const packs   = totalPacks();
+  const total   = totalCart();
+  const totalStr = ars(total);
+  const items   = PRODUCTOS.filter(p => cart[p.id]);
   const _sep  = '%E2%94%81'.repeat(15);
   const _nl   = '%0A';
   const EM = {
@@ -976,14 +1045,21 @@ function enviarPedido() {
   };
   const enc = s => encodeURIComponent(String(s));
 
+  const itemsPartes = items.flatMap(prod => {
+    const q = cart[prod.id];
+    return [
+      '*' + enc(prod.nombre) + '*',
+      enc('  · ' + prod.nombre + ' ×' + q + ' — ' + ars(q * prod.precio)),
+    ];
+  });
+
   const partes = [
     EM.r + '%20*PEDIDO%20TERCER%20TIEMPO%20%E2%80%94%20MALEU*',
-    EM.p + '%20*' + qty + '%20pack' + (qty!==1?'s':'') + '%20%C2%B7%20Pack%20Muzarella%20x2*',
+    EM.p + '%20*' + packs + '%20pack' + (packs!==1?'s':'') + '%20en%20total*',
     '',
-    '*Pack%20Muzarella%20x2*',
-    enc('  · Pack Muzarella x2 ×' + qty + ' — ' + total),
+    ...itemsPartes,
     '',
-    _sep, EM.m + '%20*TOTAL%3A%20' + enc(total) + '*', _sep,
+    _sep, EM.m + '%20*TOTAL%3A%20' + enc(totalStr) + '*', _sep,
     '',
     EM.u + '%20*Responsable%3A*%20'  + enc(nombre),
     EM.c + '%20*Club%3A*%20'          + enc(club),
@@ -1007,8 +1083,8 @@ function enviarPedido() {
       lote:   deporte + ' · ' + grupo,
       telefono, dia:'Viernes', horario:'a coordinar',
       pago: pagoEl.value,
-      items:[{ id:5, nombre:'Pack Muzarella x2', qty, precio:PRECIO_PACK }],
-      total: qty * PRECIO_PACK
+      items: items.map(prod => ({ id: prod.stockId, nombre: prod.nombre, qty: cart[prod.id], precio: prod.precio })),
+      total
     })
   }).catch(()=>{});
 
@@ -1024,7 +1100,7 @@ function enviarPedido() {
   window.open('https://wa.me/' + WA_NUMBER + '?text=' + partes.join(_nl), '_blank');
 
   setTimeout(() => {
-    qty = 0;
+    cart = {};
     updateUI();
     ['f-nombre','f-telefono'].forEach(id => { const el=$id(id); if(el) el.value=''; });
     $id('f-dia').value = ''; onDiaChange();
@@ -1050,18 +1126,21 @@ function loadClientData() {
   } catch(e){}
 }
 
-/* ── STOCK (usa id:5 = Pack Muzarella x2) ────────────────── */
+/* ── STOCK ───────────────────────────────────────────────── */
 async function fetchStock() {
   if (!STOCK_CSV_URL) return;
   try {
     const res  = await fetch(STOCK_CSV_URL);
     const text = await res.text();
+    const stockIds = new Set(PRODUCTOS.map(p => p.stockId));
     text.trim().split('\n').slice(1).forEach(row => {
       const cols = row.split(',').map(c=>c.replace(/^"|"$/g,'').trim());
       const id=parseInt(cols[0]), disp=parseInt(cols[4]);
-      if (id === 5 && !isNaN(disp)) {
-        stockDisp = disp;
-        const el = $id('stock-1');
+      if (stockIds.has(id) && !isNaN(disp)) {
+        stockMap[id] = disp;
+        const prod = PRODUCTOS.find(p => p.stockId === id);
+        if (!prod) return;
+        const el = $id('stock-' + prod.id);
         if (!el) return;
         if (disp === 0)     el.innerHTML = '<span class="stock-badge stock-out">🚫 Sin stock</span>';
         else if (disp <= 5) el.innerHTML = `<span class="stock-badge stock-low">⚡ Últimos ${disp} packs</span>`;
