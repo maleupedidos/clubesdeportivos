@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maleu Clubes — El tercer tiempo, resuelto.</title>
-  <meta name="description" content="Pizzas pre-cocidas para el tercer tiempo de tu equipo. Entrega en el club el viernes. Simple, rápido, para todos." />
+  <meta name="description" content="Pedís en la semana. Terminás el partido y en minutos el equipo está comiendo. Entrega el viernes en el club." />
   <meta name="robots" content="index, follow" />
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://maleupedidos.github.io/clubesdeportivos/" />
@@ -487,6 +487,30 @@
     .footer-hr   { border:none; border-top:1px solid rgba(232,223,196,.15); margin-bottom:1.2rem; }
     .footer-copy { font-size:.72rem; opacity:.35; }
 
+    /* ─── HERO DEADLINE ──────────────────────────────────────── */
+    .hero-deadline {
+      font-size:.72rem; color:rgba(255,255,255,.5); font-weight:600;
+      margin-top:.9rem; letter-spacing:.02em;
+    }
+
+    /* ─── WHY STRIP (3 ideas clave antes del menú) ───────────── */
+    .why-strip {
+      display:flex; gap:1.25rem; flex-wrap:wrap; justify-content:center;
+      margin-bottom:1.25rem; padding-bottom:1.25rem;
+      border-bottom:1.5px solid var(--cream);
+    }
+    .why-item {
+      display:flex; align-items:center; gap:.3rem;
+      font-size:.78rem; font-weight:700; color:var(--brown);
+    }
+    .why-item-check { color:var(--orange); }
+
+    /* ─── NEAR-BUTTON MICROCOPY ──────────────────────────────── */
+    .wa-note {
+      text-align:center; font-size:.75rem; color:var(--brown-mid);
+      font-weight:600; margin-top:1.3rem; margin-bottom:.4rem;
+    }
+
     /* ─── RESPONSIVE ──────────────────────────────────────────── */
     @media(max-width:639px){ .catalog { padding-bottom:5.5rem; } }
   </style>
@@ -513,12 +537,13 @@
   <div class="hero-badge">Maleu 🤝🏻 Clubes Deportivos</div>
   <h1>El tercer tiempo,<br><span>resuelto.</span></h1>
   <p class="hero-sub">
-    Pedís en la semana. Llegás al club y en minutos están comiendo.
+    Pedís en la semana. Terminás el partido y en minutos el equipo está comiendo.
   </p>
   <a href="#catalogo" class="hero-cta">Armar el pedido →</a>
+  <p class="hero-deadline">⏰ Hasta el miércoles a la noche · entrega el viernes en el club</p>
   <div class="hero-trust">
     <span class="trust-item"><span>📦</span> Entrega en el club</span>
-    <span class="trust-item"><span>⚡</span> Listo en minutos</span>
+    <span class="trust-item"><span>⚡</span> Listos en 12 minutos</span>
     <span class="trust-item"><span>👥</span> Para todo el plantel</span>
     <span class="trust-item"><span>🍕</span> Horno o parrilla</span>
   </div>
@@ -557,7 +582,13 @@
 <!-- ═══ CATÁLOGO ══════════════════════════════════════════════ -->
 <div class="catalog" id="catalogo">
   <div class="catalog-head">
-    <div class="catalog-head-title">El menú</div>
+    <div class="catalog-head-title">Pedí sin complicarte</div>
+  </div>
+  <!-- 3 ideas clave — eliminan dudas antes de que aparezcan -->
+  <div class="why-strip">
+    <div class="why-item"><span class="why-item-check">✓</span> Sin desorganización</div>
+    <div class="why-item"><span class="why-item-check">✓</span> Sin esperar una hora</div>
+    <div class="why-item"><span class="why-item-check">✓</span> Nadie se queda sin comer</div>
   </div>
   <!-- Helper de decisión — responde "¿cuánto pido?" antes de que lo pregunten -->
   <div class="helper-banner">
@@ -581,7 +612,7 @@
     </div>
     <div class="product-body">
       <h3 class="product-name">Pack Muzarella x2</h3>
-      <p class="product-desc">Dos pizzas de muzzarella. Pre-cocidas, listas para el horno o la parrilla. La solución de siempre.</p>
+      <p class="product-desc">Dos pizzas de muzzarella por pack. Clásico que funciona siempre.</p>
       <div class="product-chips">
         <span class="chip">Para 2–3 personas</span>
         <span class="chip">2 pizzas grandes</span>
@@ -602,7 +633,7 @@
     </div>
     <div class="product-body">
       <h3 class="product-name">Pack Jamón y Queso x2</h3>
-      <p class="product-desc">Dos pizzas de jamón y queso. Pre-cocidas, listas para el horno o la parrilla. Clásico que no falla.</p>
+      <p class="product-desc">Dos pizzas de jamón y queso por pack. Más sabor, misma simplicidad.</p>
       <div class="product-chips">
         <span class="chip">Para 2–3 personas</span>
         <span class="chip">2 pizzas grandes</span>
@@ -622,7 +653,7 @@
     </div>
     <div class="product-body">
       <h3 class="product-name">Pack Cebolla y Queso x2</h3>
-      <p class="product-desc">Dos pizzas de cebolla y queso. Pre-cocidas, listas para el horno o la parrilla. Perfectas para el tercer tiempo.</p>
+      <p class="product-desc">Dos pizzas de cebolla y queso por pack. Para darle variedad al menú.</p>
       <div class="product-chips">
         <span class="chip">Para 2–3 personas</span>
         <span class="chip">2 pizzas grandes</span>
@@ -657,7 +688,7 @@
       <span>Total</span>
       <span id="cart-total">$0</span>
     </div>
-    <button class="go-form-btn" onclick="goToForm()">Confirmar pedido →</button>
+    <button class="go-form-btn" onclick="goToForm()">Resolver el pedido del equipo →</button>
   </div>
 </aside>
 
@@ -668,7 +699,7 @@
     <span class="cart-bar-label">Ver pedido</span>
   </div>
   <span class="cart-bar-total" id="cart-bar-total">$0</span>
-  <button class="cart-bar-cta" onclick="event.stopPropagation(); goToForm()">Confirmar →</button>
+  <button class="cart-bar-cta" onclick="event.stopPropagation(); goToForm()">Resolver →</button>
 </div>
 
 <!-- ═══ FORMULARIO ════════════════════════════════════════════ -->
@@ -784,16 +815,17 @@
 
       </div><!-- /form-grid -->
 
+      <p class="wa-note">Te respondemos y confirmamos todo por WhatsApp</p>
       <button class="whatsapp-btn" onclick="enviarPedido()">
         <span class="whatsapp-btn-left">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          Enviar pedido por WhatsApp
+          Enviar pedido del tercer tiempo
         </span>
         <span class="whatsapp-btn-total" id="wa-btn-total"></span>
       </button>
     </div><!-- /form-card -->
 
-    <p class="form-note">Te abrimos WhatsApp con el pedido completo — confirmás antes de que salga.</p>
+    <p class="form-note">Te abrimos WhatsApp con el detalle completo — confirmás antes de que salga.</p>
   </div>
 </section>
 
@@ -804,7 +836,7 @@
   <div class="footer-cols">
     <div class="footer-col">
       <div class="footer-col-label">Logística</div>
-      <p>Pedidos hasta el jueves.<br>Entrega el viernes en el club.<br>Zona Pilar y alrededores.</p>
+      <p>Pedidos hasta el miércoles a la noche.<br>Entrega el viernes en el club.<br>Zona Pilar y alrededores.</p>
     </div>
     <div class="footer-col">
       <div class="footer-col-label">Contacto</div>
@@ -1054,23 +1086,19 @@ function enviarPedido() {
   });
 
   const partes = [
-    EM.r + '%20*PEDIDO%20TERCER%20TIEMPO%20%E2%80%94%20MALEU*',
-    EM.p + '%20*' + packs + '%20pack' + (packs!==1?'s':'') + '%20en%20total*',
+    enc('Hola, soy de ' + club + ' – ' + grupo + ' (' + deporte + ').'),
+    enc('Quiero coordinar el pedido para el tercer tiempo:'),
     '',
     ...itemsPartes,
-    '',
-    _sep, EM.m + '%20*TOTAL%3A%20' + enc(totalStr) + '*', _sep,
-    '',
-    EM.u + '%20*Responsable%3A*%20'  + enc(nombre),
-    EM.c + '%20*Club%3A*%20'          + enc(club),
-    EM.s + '%20*Deporte%3A*%20'       + enc(deporte),
-    EM.g + '%20*Grupo%3A*%20'         + enc(grupo),
-    EM.t + '%20*Tel%3A*%20'           + enc(telefono),
-    EM.d + '%20*Entrega%3A*%20Viernes%20%C2%B7%20a%20coordinar',
-    EM.k + '%20*Pago%3A*%20'          + enc(pagoEl.value),
+    EM.m + '%20*TOTAL%3A%20' + enc(totalStr) + '*',
     '',
     _sep,
-    enc('Hola, soy de ' + club + ' ' + deporte + ' (' + grupo + '). Quiero coordinar el pedido para el tercer tiempo.'),
+    EM.u + '%20*Responsable%3A*%20'  + enc(nombre),
+    EM.t + '%20*WhatsApp%3A*%20'     + enc(telefono),
+    EM.d + '%20*Entrega%3A*%20Viernes%20%C2%B7%20a%20coordinar',
+    EM.k + '%20*Pago%3A*%20'         + enc(pagoEl.value),
+    '',
+    enc('Quedo atento.'),
     '_Pedido%20generado%20en%20maleupedidos.github.io%2Fclubesdeportivos_',
   ];
 
