@@ -599,7 +599,7 @@
     </div>
   </div>
 
-  <article class="product-card" id="product-card-1">
+  <article class="product-card" id="product-card-pp1">
     <div class="product-thumb has-pack" style="background:#FFF8E6"
          onclick="this.classList.toggle('flipped')">
       <span class="product-thumb-emoji">🍕</span>
@@ -619,14 +619,14 @@
         <span class="chip chip-prep">Horno o parrilla · 12 min</span>
       </div>
       <div class="product-footer">
-        <span class="product-price" id="product-price-1">$10.000</span>
-        <button class="add-btn" id="add-btn-1" onclick="addToCart(1)">+ Agregar</button>
+        <span class="product-price" id="product-price-pp1">$10.000</span>
+        <button class="add-btn" id="add-btn-pp1" onclick="addToCart('pp1')">+ Agregar</button>
       </div>
     </div>
   </article>
 
 
-  <article class="product-card" id="product-card-2">
+  <article class="product-card" id="product-card-pp2">
     <div class="product-thumb has-pack" style="background:#F0F7EE"
          onclick="this.classList.toggle('flipped')">
       <span class="product-thumb-emoji">🍕</span>
@@ -646,13 +646,13 @@
         <span class="chip chip-prep">Horno o parrilla · 12 min</span>
       </div>
       <div class="product-footer">
-        <span class="product-price" id="product-price-2">$10.000</span>
-        <button class="add-btn" id="add-btn-2" onclick="addToCart(2)">+ Agregar</button>
+        <span class="product-price" id="product-price-pp2">$10.000</span>
+        <button class="add-btn" id="add-btn-pp2" onclick="addToCart('pp2')">+ Agregar</button>
       </div>
     </div>
   </article>
 
-  <article class="product-card" id="product-card-3">
+  <article class="product-card" id="product-card-pp3">
     <div class="product-thumb has-pack" style="background:#EEF3F8"
          onclick="this.classList.toggle('flipped')">
       <span class="product-thumb-emoji">🍕</span>
@@ -672,8 +672,8 @@
         <span class="chip chip-prep">Horno o parrilla · 12 min</span>
       </div>
       <div class="product-footer">
-        <span class="product-price" id="product-price-3">$10.000</span>
-        <button class="add-btn" id="add-btn-3" onclick="addToCart(3)">+ Agregar</button>
+        <span class="product-price" id="product-price-pp3">$10.000</span>
+        <button class="add-btn" id="add-btn-pp3" onclick="addToCart('pp3')">+ Agregar</button>
       </div>
     </div>
   </article>
@@ -929,14 +929,14 @@ function updateUI() {
     if (qty === 0) {
       footer.innerHTML = `
         <span class="product-price">${ars(prod.precio)}</span>
-        <button class="add-btn" id="add-btn-${pid}" onclick="addToCart(${pid})">+ Agregar</button>`;
+        <button class="add-btn" id="add-btn-${pid}" onclick="addToCart('${pid}')">+ Agregar</button>`;
     } else {
       footer.innerHTML = `
         <span class="product-price">${ars(prod.precio)}</span>
         <div class="card-qty-controls">
-          <button class="card-qty-btn remove" onclick="changeQty(${pid},-1)" aria-label="Quitar">−</button>
+          <button class="card-qty-btn remove" onclick="changeQty('${pid}',-1)" aria-label="Quitar">−</button>
           <span class="card-qty-val">${qty}</span>
-          <button class="card-qty-btn" onclick="changeQty(${pid},+1)" aria-label="Agregar">+</button>
+          <button class="card-qty-btn" onclick="changeQty('${pid}',+1)" aria-label="Agregar">+</button>
         </div>`;
     }
   });
@@ -968,9 +968,9 @@ function updateUI() {
           <div class="cart-item-sub">${ars(prod.precio)} c/u · <strong>${ars(subtotal)}</strong></div>
         </div>
         <div class="qty-controls">
-          <button class="qty-btn" onclick="changeQty(${prod.id},-1)">−</button>
+          <button class="qty-btn" onclick="changeQty('${prod.id}',-1)">−</button>
           <span class="qty-val">${qty}</span>
-          <button class="qty-btn" onclick="changeQty(${prod.id},+1)">+</button>
+          <button class="qty-btn" onclick="changeQty('${prod.id}',+1)">+</button>
         </div>
       </div>`;
     }).join('');
@@ -1077,19 +1077,18 @@ function enviarPedido() {
   };
   const enc = s => encodeURIComponent(String(s));
 
-  const itemsPartes = items.flatMap(prod => {
+  const fecha = new Date().toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit', year:'numeric' });
+
+  const itemsPartes = items.map(prod => {
     const q = cart[prod.id];
-    return [
-      '*' + enc(prod.nombre) + '*',
-      enc('  · ' + prod.nombre + ' ×' + q + ' — ' + ars(q * prod.precio)),
-    ];
+    return enc('  · ' + prod.nombre + ' ×' + q + ' — ' + ars(q * prod.precio));
   });
 
   const partes = [
-    enc('Hola, soy de ' + club + ' – ' + grupo + ' (' + deporte + ').'),
-    enc('Quiero coordinar el pedido para el tercer tiempo:'),
+    EM.r + '%20*Nuevo%20Pedido%20%C2%B7%20' + enc(fecha) + '*',
     '',
     ...itemsPartes,
+    '',
     EM.m + '%20*TOTAL%3A%20' + enc(totalStr) + '*',
     '',
     _sep,
@@ -1097,9 +1096,6 @@ function enviarPedido() {
     EM.t + '%20*WhatsApp%3A*%20'     + enc(telefono),
     EM.d + '%20*Entrega%3A*%20Viernes%20%C2%B7%20a%20coordinar',
     EM.k + '%20*Pago%3A*%20'         + enc(pagoEl.value),
-    '',
-    enc('Quedo atento.'),
-    '_Pedido%20generado%20en%20maleupedidos.github.io%2Fclubesdeportivos_',
   ];
 
   // Registrar en Sheets
