@@ -575,21 +575,11 @@
 
 <!-- ═══ CATÁLOGO ══════════════════════════════════════════════ -->
 <div class="catalog" id="catalogo">
-  <div class="catalog-head">
-    <div class="catalog-head-title">Pedí sin complicarte</div>
-  </div>
-  <!-- 3 ideas clave — eliminan dudas antes de que aparezcan -->
-  <div class="why-strip">
-    <div class="why-item"><span class="why-item-check">✓</span> Sin desorganización</div>
-    <div class="why-item"><span class="why-item-check">✓</span> Sin esperar una hora</div>
-    <div class="why-item"><span class="why-item-check">✓</span> Nadie se queda sin comer</div>
-  </div>
-  <!-- Helper de decisión — responde "¿cuánto pido?" antes de que lo pregunten -->
   <div class="helper-banner">
     <span>💡</span>
     <div>
-      <div>Varones: <strong>1 pizza por jugador</strong> (1 pack = mínimo 2 personas)</div>
-      <div>Mujeres: <strong>1 pizza cada 2 jugadoras</strong></div>
+      <div>Jugadores: <strong>Mínimo 1 pizza.</strong> (1 pack = 1/2 personas)</div>
+      <div>Jugadoras: <strong>1 pizza cada 2</strong></div>
     </div>
   </div>
 
@@ -1072,6 +1062,10 @@ function enviarPedido() {
   const enc = s => encodeURIComponent(String(s));
 
   const fecha = new Date().toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit', year:'numeric' });
+  const _now = new Date();
+  const _daysToFri = (5 - _now.getDay() + 7) % 7 || 7;
+  const _nextFri = new Date(_now); _nextFri.setDate(_now.getDate() + _daysToFri);
+  const fechaViernes = _nextFri.toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit' });
 
   const itemsPartes = items.map(prod => {
     const q = cart[prod.id];
@@ -1088,7 +1082,7 @@ function enviarPedido() {
     _sep,
     EM.u + '%20*Responsable%3A*%20'  + enc(nombre),
     EM.t + '%20*WhatsApp%3A*%20'     + enc(telefono),
-    EM.d + '%20*Entrega%3A*%20Viernes%20%C2%B7%20a%20coordinar',
+    EM.d + '%20*Entrega%3A*%20Viernes%20' + enc(fechaViernes) + '%20%C2%B7%20a%20coordinar',
     EM.k + '%20*Pago%3A*%20'         + enc(pagoEl.value),
   ];
 
