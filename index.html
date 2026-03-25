@@ -27,7 +27,7 @@
       --orange:     #F07D47;
       --cream:      #F2E8C7;
       --white:      #FAFAFA;
-      --brown-mid:  #7A4A4A;
+      --brown-mid:  #5C3333;
       --cream-dark: #D4C8A0;
       --green-wa:   #25D366;
       --font: 'Montserrat', system-ui, sans-serif;
@@ -64,9 +64,10 @@
 
     /* ─── HERO ───────────────────────────────────────────────── */
     .hero {
-      background:var(--brown); padding:3.25rem 1.5rem 3rem; text-align:center;
+      background:var(--brown); padding:2rem 1.5rem 1.75rem; text-align:center;
       position:relative; overflow:hidden;
     }
+    @media(min-width:640px){ .hero { padding:3.25rem 1.5rem 3rem; } }
     .hero::before {
       content:''; position:absolute; inset:0;
       background:radial-gradient(ellipse at 65% 20%, rgba(240,125,71,.18) 0%, transparent 60%);
@@ -81,9 +82,10 @@
       padding:.3rem .85rem; border-radius:50px; margin-bottom:1.2rem;
     }
     .hero h1 {
-      font-size:clamp(2.2rem,6.5vw,3.8rem); font-weight:900; color:#fff;
-      line-height:1.0; letter-spacing:-.03em; margin-bottom:.9rem;
+      font-size:clamp(1.8rem,6vw,3.8rem); font-weight:900; color:#fff;
+      line-height:1.0; letter-spacing:-.03em; margin-bottom:.6rem;
     }
+    @media(min-width:640px){ .hero h1 { margin-bottom:.9rem; } }
     .hero h1 span { color:var(--orange); }
     .hero-sub {
       font-size:1rem; color:rgba(255,255,255,.65); max-width:420px;
@@ -147,7 +149,8 @@
     .deadline-badge span { font-size:1.1rem; }
 
     /* ─── CATÁLOGO ────────────────────────────────────────────── */
-    .catalog { padding:2.5rem 1.25rem 5rem; max-width:680px; margin:0 auto; }
+    .catalog { padding:1.5rem .75rem 5rem; max-width:680px; margin:0 auto; }
+    @media(min-width:640px){ .catalog { padding:2.5rem 1.25rem 5rem; } }
     .catalog-head { margin-bottom:1.5rem; }
     .catalog-head-title {
       font-size:1.2rem; font-weight:800; color:var(--brown); margin-bottom:.25rem;
@@ -162,6 +165,18 @@
     }
     .helper-banner span { font-size:1.1rem; flex-shrink:0; margin-top:.05rem; }
 
+    /* ─── CATEGORY SECTIONS ─────────────────────────────────── */
+    .cat-section { margin-bottom:2rem; }
+    .cat-header { margin-bottom:.8rem; padding-bottom:.6rem; border-bottom:2px solid var(--cream); }
+    .cat-title { display:flex; align-items:center; gap:.5rem; font-size:1.05rem; font-weight:800; color:var(--brown); }
+    @media(min-width:640px){ .cat-title{ font-size:1.25rem; } }
+    .cat-nota { font-size:.75rem; color:var(--brown-mid); padding-left:1.7rem; margin-top:.15rem; }
+
+    /* ─── PRODUCTS GRID ─────────────────────────────────────── */
+    .products-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.65rem; }
+    @media(min-width:640px){ .products-grid{ gap:1.25rem; grid-template-columns:1fr; } }
+    @media(max-width:359px){ .products-grid{ grid-template-columns:1fr; } }
+
     /* ─── PRODUCT CARD ────────────────────────────────────────── */
     .product-card {
       background:#fff; border-radius:20px; overflow:hidden;
@@ -173,10 +188,11 @@
       box-shadow:0 18px 44px rgba(51,28,28,.13);
     }
     .product-thumb {
-      width:100%; height:240px;
+      width:100%; height:140px;
       display:flex; align-items:center; justify-content:center;
       position:relative; overflow:hidden;
     }
+    @media(min-width:640px){ .product-thumb { height:240px; } }
     .product-thumb::after {
       content:''; position:absolute; inset:0;
       background:linear-gradient(to top, rgba(20,8,2,.22) 0%, transparent 45%);
@@ -203,9 +219,12 @@
     .product-thumb.flipped .product-thumb-pack { opacity:1; }
     .product-thumb.flipped .thumb-toggle-hint  { opacity:0; }
 
-    .product-body   { padding:1.15rem 1.25rem 1.35rem; }
-    .product-name   { font-size:1.1rem; font-weight:800; color:var(--brown); margin-bottom:.35rem; }
+    .product-body   { padding:.8rem .85rem 1rem; }
+    @media(min-width:640px){ .product-body { padding:1.15rem 1.25rem 1.35rem; } }
+    .product-name   { font-size:.88rem; font-weight:800; color:var(--brown); margin-bottom:.35rem; }
+    @media(min-width:640px){ .product-name { font-size:1.1rem; } }
     .product-desc   { font-size:.82rem; color:var(--brown-mid); line-height:1.5; margin-bottom:.85rem; }
+    @media(max-width:639px){ .product-desc{ display:none; } }
 
     /* Chips de info del producto */
     .product-chips {
@@ -214,19 +233,23 @@
     .chip {
       display:inline-flex; align-items:center;
       background:var(--cream); color:var(--brown-mid);
-      border-radius:50px; font-size:.62rem; font-weight:700;
+      border-radius:50px; font-size:.65rem; font-weight:700;
       padding:.18rem .52rem; white-space:nowrap; letter-spacing:.01em;
     }
+    @media(min-width:640px){ .chip { font-size:.72rem; } }
     .chip-prep { background:#e8f5e8; color:#2d6a2d; }
 
-    .product-footer { display:flex; align-items:center; justify-content:space-between; }
+    .product-footer { display:flex; flex-direction:column; gap:.45rem; align-items:stretch; }
+    @media(min-width:640px){ .product-footer { flex-direction:row; gap:0; align-items:center; justify-content:space-between; } }
     .product-price  { font-size:1.3rem; font-weight:800; color:var(--brown); letter-spacing:-.01em; }
     .add-btn {
       background:var(--orange); color:#fff; border:none; border-radius:10px;
       padding:.6rem 1.15rem; font-family:var(--font); font-size:.93rem; font-weight:700;
       cursor:pointer; transition:background .15s, transform .1s, box-shadow .15s;
       box-shadow:0 2px 8px rgba(240,125,71,.35);
+      width:100%; text-align:center;
     }
+    @media(min-width:640px){ .add-btn { width:auto; text-align:left; } }
     .add-btn:hover  { background:#D96B38; box-shadow:0 4px 14px rgba(240,125,71,.45); }
     .add-btn:active { transform:scale(.93); }
     .add-btn:disabled { background:#d0ccc8; color:#888; cursor:not-allowed; box-shadow:none; }
@@ -511,6 +534,10 @@
       font-weight:600; margin-top:1.3rem; margin-bottom:.4rem;
     }
 
+    /* ─── BADGE BOUNCE ──────────────────────────────────────── */
+    .cart-badge.bounce { animation:badgeBounce .4s cubic-bezier(.2,.8,.3,1.4); }
+    @keyframes badgeBounce { 0%{transform:scale(1)} 40%{transform:scale(1.45)} 100%{transform:scale(1)} }
+
     /* ─── RESPONSIVE ──────────────────────────────────────────── */
     @media(max-width:639px){ .catalog { padding-bottom:5.5rem; } }
   </style>
@@ -549,89 +576,210 @@
   <div class="helper-banner">
     <span>💡</span>
     <div>
-      <div>Jugadores: <strong>Mínimo 1 pizza.</strong> (1 pack = 1/2 personas)</div>
+      <div>Pizza individual = 1 persona · Pack x2 = 2–3 personas</div>
       <div>Jugadoras: <strong>1 pizza cada 2</strong></div>
     </div>
   </div>
 
-  <article class="product-card" id="product-card-pp1">
-    <div class="product-thumb has-pack" style="background:#FFF8E6"
-         onclick="this.classList.toggle('flipped')">
-      <span class="product-thumb-emoji">🍕</span>
-      <img class="product-thumb-img" src="img/pack-muzarella-cocida.jpg"
-           alt="Pack Muzarella x2" loading="lazy" style="object-position:center 40%"
-           onerror="this.remove()">
-      <img class="product-thumb-img product-thumb-pack" src="img/pack-muzarella.jpg"
-           alt="Pack Muzarella x2 — pack" loading="lazy" onerror="this.remove()">
-      <span class="thumb-toggle-hint">📦 ver pack</span>
+  <!-- ── Pizzas Premium (individuales) ── -->
+  <div class="cat-section">
+    <div class="cat-header">
+      <div class="cat-title">🍕 Pizzas Premium (individuales)</div>
+      <div class="cat-nota">1 pizza grande por unidad</div>
     </div>
-    <div class="product-body">
-      <h3 class="product-name">Pack Muzarella x2</h3>
-      <p class="product-desc">Dos pizzas de muzzarella por pack. Clásico que funciona siempre.</p>
-      <div class="product-chips">
-        <span class="chip">Para 2–3 personas</span>
-        <span class="chip">2 pizzas grandes</span>
-        <span class="chip chip-prep">Horno o parrilla · 12 min</span>
-      </div>
-      <div class="product-footer">
-        <span class="product-price" id="product-price-pp1">$10.000</span>
-        <button class="add-btn" id="add-btn-pp1" onclick="addToCart('pp1')">+ Agregar</button>
-      </div>
-    </div>
-  </article>
+    <div class="products-grid">
 
+      <article class="product-card" id="product-card-pmu">
+        <div class="product-thumb" style="background:#FFF8E6">
+          <span class="product-thumb-emoji">🍕</span>
+          <img class="product-thumb-img" src="img/pizza-muzarella.jpg" alt="Pizza Muzzarella" loading="lazy" decoding="async" width="400" height="300" onerror="this.remove()">
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Pizza Muzzarella</h3>
+          <p class="product-desc">La clásica muzzarella. Siempre funciona.</p>
+          <div class="product-chips">
+            <span class="chip">Individual</span>
+            <span class="chip">1 pizza grande</span>
+            <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+          </div>
+          <div class="product-footer">
+            <span class="product-price" id="product-price-pmu">$7.000</span>
+            <button class="add-btn" id="add-btn-pmu" onclick="addToCart('pmu')">+ Agregar</button>
+          </div>
+        </div>
+      </article>
 
-  <article class="product-card" id="product-card-pp2">
-    <div class="product-thumb has-pack" style="background:#F0F7EE"
-         onclick="this.classList.toggle('flipped')">
-      <span class="product-thumb-emoji">🍕</span>
-      <img class="product-thumb-img" src="img/pack-jamon-queso-cocida.jpg"
-           alt="Pack Jamón y Queso x2" loading="lazy" style="object-position:center 45%"
-           onerror="this.remove()">
-      <img class="product-thumb-img product-thumb-pack" src="img/pack-jamon-queso.jpg"
-           alt="Pack Jamón y Queso x2 — pack" loading="lazy" onerror="this.remove()">
-      <span class="thumb-toggle-hint">📦 ver pack</span>
-    </div>
-    <div class="product-body">
-      <h3 class="product-name">Pack Jamón y Queso x2</h3>
-      <p class="product-desc">Dos pizzas de jamón y queso por pack. Más sabor, misma simplicidad.</p>
-      <div class="product-chips">
-        <span class="chip">Para 2–3 personas</span>
-        <span class="chip">2 pizzas grandes</span>
-        <span class="chip chip-prep">Horno o parrilla · 12 min</span>
-      </div>
-      <div class="product-footer">
-        <span class="product-price" id="product-price-pp2">$10.000</span>
-        <button class="add-btn" id="add-btn-pp2" onclick="addToCart('pp2')">+ Agregar</button>
-      </div>
-    </div>
-  </article>
+      <article class="product-card" id="product-card-pjq">
+        <div class="product-thumb" style="background:#FDF0F0">
+          <span class="product-thumb-emoji">🍕</span>
+          <img class="product-thumb-img" src="img/pizza-jamon-queso.jpg" alt="Pizza Jamón y Queso" loading="lazy" decoding="async" width="400" height="300" onerror="this.remove()">
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Pizza Jamón y Queso</h3>
+          <p class="product-desc">Jamón y queso, el combo ganador.</p>
+          <div class="product-chips">
+            <span class="chip">Individual</span>
+            <span class="chip">1 pizza grande</span>
+            <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+          </div>
+          <div class="product-footer">
+            <span class="product-price" id="product-price-pjq">$7.000</span>
+            <button class="add-btn" id="add-btn-pjq" onclick="addToCart('pjq')">+ Agregar</button>
+          </div>
+        </div>
+      </article>
 
-  <article class="product-card" id="product-card-pp3">
-    <div class="product-thumb has-pack" style="background:#EEF3F8"
-         onclick="this.classList.toggle('flipped')">
-      <span class="product-thumb-emoji">🍕</span>
-      <img class="product-thumb-img" src="img/pack-cebolla-queso-cocida.jpg"
-           alt="Pack Cebolla y Queso x2" loading="lazy" style="object-position:center 50%"
-           onerror="this.remove()">
-      <img class="product-thumb-img product-thumb-pack" src="img/pack-cebolla-queso.jpg"
-           alt="Pack Cebolla y Queso x2 — pack" loading="lazy" onerror="this.remove()">
-      <span class="thumb-toggle-hint">📦 ver pack</span>
+      <article class="product-card" id="product-card-pcc">
+        <div class="product-thumb" style="background:#FBF0E8">
+          <span class="product-thumb-emoji">🍕</span>
+          <img class="product-thumb-img" src="img/pizza-cebolla.jpg" alt="Pizza Cebolla Caramelizada" loading="lazy" decoding="async" width="400" height="300" onerror="this.remove()">
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Pizza Cebolla Caramelizada</h3>
+          <p class="product-desc">Cebolla caramelizada para los que buscan algo distinto.</p>
+          <div class="product-chips">
+            <span class="chip">Individual</span>
+            <span class="chip">1 pizza grande</span>
+            <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+          </div>
+          <div class="product-footer">
+            <span class="product-price" id="product-price-pcc">$7.000</span>
+            <button class="add-btn" id="add-btn-pcc" onclick="addToCart('pcc')">+ Agregar</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" id="product-card-pma">
+        <div class="product-thumb" style="background:#FFF3E8">
+          <span class="product-thumb-emoji">🍕</span>
+          <img class="product-thumb-img" src="img/pizza-margarita.jpg" alt="Pizza Margarita" loading="lazy" decoding="async" width="400" height="300" onerror="this.remove()">
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Pizza Margarita</h3>
+          <p class="product-desc">Tomate, albahaca y muzzarella. Simple y rica.</p>
+          <div class="product-chips">
+            <span class="chip">Individual</span>
+            <span class="chip">1 pizza grande</span>
+            <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+          </div>
+          <div class="product-footer">
+            <span class="product-price" id="product-price-pma">$7.000</span>
+            <button class="add-btn" id="add-btn-pma" onclick="addToCart('pma')">+ Agregar</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" id="product-card-pjm">
+        <div class="product-thumb" style="background:#F5F0FA">
+          <span class="product-thumb-emoji">🍕</span>
+          <img class="product-thumb-img" src="img/pizza-jamon-morron.jpg" alt="Pizza Jamón y Morrón" loading="lazy" decoding="async" width="400" height="300" onerror="this.remove()">
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Pizza Jamón y Morrón</h3>
+          <p class="product-desc">Jamón y morrón, la favorita de siempre.</p>
+          <div class="product-chips">
+            <span class="chip">Individual</span>
+            <span class="chip">1 pizza grande</span>
+            <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+          </div>
+          <div class="product-footer">
+            <span class="product-price" id="product-price-pjm">$7.800</span>
+            <button class="add-btn" id="add-btn-pjm" onclick="addToCart('pjm')">+ Agregar</button>
+          </div>
+        </div>
+      </article>
+
     </div>
-    <div class="product-body">
-      <h3 class="product-name">Pack Cebolla y Queso x2</h3>
-      <p class="product-desc">Dos pizzas de cebolla y queso por pack. Para darle variedad al menú.</p>
-      <div class="product-chips">
-        <span class="chip">Para 2–3 personas</span>
-        <span class="chip">2 pizzas grandes</span>
-        <span class="chip chip-prep">Horno o parrilla · 12 min</span>
-      </div>
-      <div class="product-footer">
-        <span class="product-price" id="product-price-pp3">$10.000</span>
-        <button class="add-btn" id="add-btn-pp3" onclick="addToCart('pp3')">+ Agregar</button>
-      </div>
+  </div>
+
+  <!-- ── Pizzas Básicas (pack x2) ── -->
+  <div class="cat-section">
+    <div class="cat-header">
+      <div class="cat-title">📦 Pizzas Básicas (pack x2)</div>
+      <div class="cat-nota">2 pizzas grandes por pack</div>
     </div>
-  </article>
+    <div class="products-grid">
+
+      <article class="product-card" id="product-card-pp1">
+        <div class="product-thumb has-pack" style="background:#FFF8E6"
+             onclick="this.classList.toggle('flipped')">
+          <span class="product-thumb-emoji">🍕</span>
+          <img class="product-thumb-img" src="img/pack-muzarella-cocida.jpg"
+               alt="Pack Muzarella x2" loading="lazy" decoding="async" width="400" height="300" style="object-position:center 40%"
+               onerror="this.remove()">
+          <img class="product-thumb-img product-thumb-pack" src="img/pack-muzarella.jpg"
+               alt="Pack Muzarella x2 — pack" loading="lazy" decoding="async" width="400" height="300" onerror="this.remove()">
+          <span class="thumb-toggle-hint">📦 ver pack</span>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Pack Muzarella x2</h3>
+          <p class="product-desc">Dos pizzas de muzzarella por pack. Clásico que funciona siempre.</p>
+          <div class="product-chips">
+            <span class="chip">Para 2–3 personas</span>
+            <span class="chip">2 pizzas grandes</span>
+            <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+          </div>
+          <div class="product-footer">
+            <span class="product-price" id="product-price-pp1">$11.000</span>
+            <button class="add-btn" id="add-btn-pp1" onclick="addToCart('pp1')">+ Agregar</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" id="product-card-pp2">
+        <div class="product-thumb has-pack" style="background:#F0F7EE"
+             onclick="this.classList.toggle('flipped')">
+          <span class="product-thumb-emoji">🍕</span>
+          <img class="product-thumb-img" src="img/pack-jamon-queso-cocida.jpg"
+               alt="Pack Jamón y Queso x2" loading="lazy" decoding="async" width="400" height="300" style="object-position:center 45%"
+               onerror="this.remove()">
+          <img class="product-thumb-img product-thumb-pack" src="img/pack-jamon-queso.jpg"
+               alt="Pack Jamón y Queso x2 — pack" loading="lazy" decoding="async" width="400" height="300" onerror="this.remove()">
+          <span class="thumb-toggle-hint">📦 ver pack</span>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Pack Jamón y Queso x2</h3>
+          <p class="product-desc">Dos pizzas de jamón y queso por pack. Más sabor, misma simplicidad.</p>
+          <div class="product-chips">
+            <span class="chip">Para 2–3 personas</span>
+            <span class="chip">2 pizzas grandes</span>
+            <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+          </div>
+          <div class="product-footer">
+            <span class="product-price" id="product-price-pp2">$11.000</span>
+            <button class="add-btn" id="add-btn-pp2" onclick="addToCart('pp2')">+ Agregar</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" id="product-card-pp3">
+        <div class="product-thumb has-pack" style="background:#EEF3F8"
+             onclick="this.classList.toggle('flipped')">
+          <span class="product-thumb-emoji">🍕</span>
+          <img class="product-thumb-img" src="img/pack-cebolla-queso-cocida.jpg"
+               alt="Pack Cebolla y Queso x2" loading="lazy" decoding="async" width="400" height="300" style="object-position:center 50%"
+               onerror="this.remove()">
+          <img class="product-thumb-img product-thumb-pack" src="img/pack-cebolla-queso.jpg"
+               alt="Pack Cebolla y Queso x2 — pack" loading="lazy" decoding="async" width="400" height="300" onerror="this.remove()">
+          <span class="thumb-toggle-hint">📦 ver pack</span>
+        </div>
+        <div class="product-body">
+          <h3 class="product-name">Pack Cebolla y Queso x2</h3>
+          <p class="product-desc">Dos pizzas de cebolla y queso por pack. Para darle variedad al menú.</p>
+          <div class="product-chips">
+            <span class="chip">Para 2–3 personas</span>
+            <span class="chip">2 pizzas grandes</span>
+            <span class="chip chip-prep">Horno o parrilla · 12 min</span>
+          </div>
+          <div class="product-footer">
+            <span class="product-price" id="product-price-pp3">$11.000</span>
+            <button class="add-btn" id="add-btn-pp3" onclick="addToCart('pp3')">+ Agregar</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
 
   <!-- Sugerencia dinámica según cantidad total en carrito -->
   <div class="qty-suggestion" id="qty-suggestion"></div>
@@ -678,7 +826,7 @@
 
       <div class="order-summary-box">
         <h4>Resumen del pedido</h4>
-        <div id="form-summary"><p class="summary-empty">Agregá packs para ver el resumen.</p></div>
+        <div id="form-summary"><p class="summary-empty">Agregá pizzas o packs para ver el resumen.</p></div>
       </div>
 
       <div class="form-grid">
@@ -820,9 +968,14 @@
 
 /* ── CONFIG ──────────────────────────────────────────────── */
 const PRODUCTOS = [
-  { id: 'pp1', nombre: 'Pack Muzarella x2',       precio: 10000 },
-  { id: 'pp2', nombre: 'Pack Jamón y Queso x2',   precio: 10000 },
-  { id: 'pp3', nombre: 'Pack Cebolla y Queso x2', precio: 10000 },
+  { id:'pmu', nombre:'Pizza Muzzarella',          precio:7000,  cat:'premium' },
+  { id:'pjq', nombre:'Pizza Jamón y Queso',       precio:7000,  cat:'premium' },
+  { id:'pcc', nombre:'Pizza Cebolla Caramelizada', precio:7000,  cat:'premium' },
+  { id:'pma', nombre:'Pizza Margarita',            precio:7000,  cat:'premium' },
+  { id:'pjm', nombre:'Pizza Jamón y Morrón',      precio:7800,  cat:'premium' },
+  { id:'pp1', nombre:'Pack Muzarella x2',          precio:11000, cat:'basica' },
+  { id:'pp2', nombre:'Pack Jamón y Queso x2',      precio:11000, cat:'basica' },
+  { id:'pp3', nombre:'Pack Cebolla y Queso x2',    precio:11000, cat:'basica' },
 ];
 const WA_NUMBER       = "5491155038905";
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7HR-op6KSz2a-B2Dvloua6sJ63tsUmkEOWJACqQHAHeG8hOZ3a5HCNjiljjTpWSs/exec";
@@ -837,10 +990,15 @@ function totalCart()  { return PRODUCTOS.reduce((s,p) => s + (cart[p.id]||0) * p
 function totalPacks() { return Object.values(cart).reduce((s,v) => s + v, 0); }
 
 /* ── SUGERENCIA DINÁMICA DE CANTIDAD ─────────────────────── */
-function sugerencia(packs) {
-  if (packs === 0) return '';
-  const min = packs * 2, max = packs * 3;
-  return `💡 Con ${packs} pack${packs!==1?'s':''} → para ${min}–${max} personas`;
+function totalPizzas() {
+  return PRODUCTOS.reduce((s,p) => {
+    const qty = cart[p.id] || 0;
+    return s + (p.cat === 'basica' ? qty * 2 : qty);
+  }, 0);
+}
+function sugerencia(totalPizzasCount) {
+  if (totalPizzasCount === 0) return '';
+  return '💡 Con ' + totalPizzasCount + ' pizza' + (totalPizzasCount!==1?'s':'') + ' → para ' + totalPizzasCount + '–' + Math.ceil(totalPizzasCount*1.5) + ' personas';
 }
 
 /* ── CARRITO ─────────────────────────────────────────────── */
@@ -849,6 +1007,10 @@ function addToCart(pid) {
   cart[pid] = (cart[pid] || 0) + 1;
   updateUI();
   toast('✓ ' + prod.nombre + ' agregado');
+  const badge = $id('cart-badge');
+  badge.classList.remove('bounce');
+  void badge.offsetWidth;
+  badge.classList.add('bounce');
 }
 function changeQty(pid, delta) {
   const qty = (cart[pid] || 0) + delta;
@@ -861,6 +1023,7 @@ function changeQty(pid, delta) {
 function updateUI() {
   const packs = totalPacks();
   const total = totalCart();
+  const pizzas = totalPizzas();
 
   // Badge header
   const badge = $id('cart-badge');
@@ -870,7 +1033,7 @@ function updateUI() {
   // Barra sticky móvil
   const bar = $id('cart-bar');
   bar.style.display = packs > 0 ? 'flex' : 'none';
-  $id('cart-bar-count').textContent = packs + ' pack' + (packs!==1?'s':'');
+  $id('cart-bar-count').textContent = packs + ' item' + (packs!==1?'s':'');
   $id('cart-bar-total').textContent = ars(total);
 
   // Total botón WA
@@ -880,7 +1043,9 @@ function updateUI() {
   PRODUCTOS.forEach(prod => {
     const pid = prod.id;
     const qty = cart[pid] || 0;
-    const footer = $id('product-card-' + pid).querySelector('.product-footer');
+    const card = $id('product-card-' + pid);
+    if (!card) return;
+    const footer = card.querySelector('.product-footer');
     if (qty === 0) {
       footer.innerHTML = `
         <span class="product-price">${ars(prod.precio)}</span>
@@ -898,8 +1063,8 @@ function updateUI() {
 
   // Sugerencia bajo los productos
   const sug = $id('qty-suggestion');
-  if (packs > 0) {
-    sug.textContent = sugerencia(packs);
+  if (pizzas > 0) {
+    sug.textContent = sugerencia(pizzas);
     sug.classList.add('visible');
   } else {
     sug.classList.remove('visible');
@@ -909,7 +1074,7 @@ function updateUI() {
   const bodyEl = $id('cart-body'), footEl = $id('cart-foot');
   const items = PRODUCTOS.filter(p => cart[p.id]);
   if (items.length === 0) {
-    bodyEl.innerHTML = '<div class="cart-empty-msg"><span>🍕</span>Todavía no agregaste packs.</div>';
+    bodyEl.innerHTML = '<div class="cart-empty-msg"><span>🍕</span>Todavía no agregaste pizzas.</div>';
     footEl.style.display = 'none';
   } else {
     footEl.style.display = 'block';
@@ -930,7 +1095,7 @@ function updateUI() {
       </div>`;
     }).join('');
     $id('cart-total').textContent = ars(total);
-    $id('cart-suggestion').textContent = sugerencia(packs);
+    $id('cart-suggestion').textContent = sugerencia(pizzas);
   }
 
   updateFormSummary();
@@ -940,7 +1105,7 @@ function updateFormSummary() {
   const el = $id('form-summary');
   const items = PRODUCTOS.filter(p => cart[p.id]);
   if (items.length === 0) {
-    el.innerHTML = '<p class="summary-empty">Agregá packs para ver el resumen.</p>'; return;
+    el.innerHTML = '<p class="summary-empty">Agregá pizzas o packs para ver el resumen.</p>'; return;
   }
   const lineas = items.map(prod =>
     `<div class="summary-line"><span>${prod.nombre} <strong>×${cart[prod.id]}</strong></span><span>${ars(cart[prod.id]*prod.precio)}</span></div>`
@@ -1001,7 +1166,7 @@ function enviarPedido() {
    ['f-deporte','err-deporte'],['f-grupo','err-grupo'],['f-dia','err-dia']].forEach(([f,e]) => clearError(f,e));
   $id('err-pago').classList.remove('visible');
 
-  if (totalPacks() === 0) { toast('⚠️ Agregá al menos 1 pack'); return; }
+  if (totalPacks() === 0) { toast('⚠️ Agregá al menos 1 pizza o pack'); return; }
 
   let first = null;
   if (!nombre)   { showError('f-nombre','err-nombre');     if(!first) first=$id('f-nombre'); }
@@ -1038,10 +1203,24 @@ function enviarPedido() {
   const _nextFri = new Date(_now); _nextFri.setDate(_now.getDate() + _daysToFri);
   const fechaViernes = _nextFri.toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit' });
 
-  const itemsPartes = items.map(prod => {
-    const q = cart[prod.id];
-    return enc('  · ' + prod.nombre + ' ×' + q + ' — ' + ars(q * prod.precio));
-  });
+  const premiumItems = items.filter(p => p.cat === 'premium');
+  const basicaItems  = items.filter(p => p.cat === 'basica');
+  const itemsPartes = [];
+  if (premiumItems.length > 0) {
+    itemsPartes.push(enc('🍕 Premium (individuales):'));
+    premiumItems.forEach(prod => {
+      const q = cart[prod.id];
+      itemsPartes.push(enc('  · ' + prod.nombre + ' ×' + q + ' — ' + ars(q * prod.precio)));
+    });
+  }
+  if (basicaItems.length > 0) {
+    if (premiumItems.length > 0) itemsPartes.push('');
+    itemsPartes.push(enc('📦 Packs básicos (x2):'));
+    basicaItems.forEach(prod => {
+      const q = cart[prod.id];
+      itemsPartes.push(enc('  · ' + prod.nombre + ' ×' + q + ' — ' + ars(q * prod.precio)));
+    });
+  }
 
   const partes = [
     EM.r + '%20*Nuevo%20Pedido%20%C2%B7%20' + enc(fecha) + '*',
@@ -1095,7 +1274,7 @@ function enviarPedido() {
 
 /* ── TOAST ───────────────────────────────────────────────── */
 let _tt;
-function toast(msg){ const el=$id('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2700); }
+function toast(msg){ const el=$id('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),1200); }
 
 /* ── PRECARGAR DATOS ─────────────────────────────────────── */
 function loadClientData() {
