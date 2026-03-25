@@ -1006,7 +1006,7 @@ const PRODUCTOS = [
   { id:'pp3', nombre:'Pack Cebolla y Queso x2',    precio:11000, cat:'basica' },
 ];
 const WA_NUMBER       = "5491155038905";
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7HR-op6KSz2a-B2Dvloua6sJ63tsUmkEOWJACqQHAHeG8hOZ3a5HCNjiljjTpWSs/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxMntRpoQrh2V97mGV2ySmW8lUjXgTe-cy5-TEZW_5HuGFKSFs_URIWIWuKdvBiPyP9kQ/exec";
 const HORARIOS        = { "Viernes": "a coordinar" };
 
 let cart      = {};   // { productId: qty }
@@ -1268,9 +1268,9 @@ function enviarPedido() {
   fetch(APPS_SCRIPT_URL, {
     method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'},
     body: JSON.stringify({
+      canal: 'Clubes',
       fecha: new Date().toLocaleString('es-AR'),
-      nombre, barrio:'Club-' + club,
-      lote:   deporte + ' · ' + grupo,
+      nombre, club, deporte, grupo,
       telefono, dia:'Viernes', horario:'a coordinar',
       pago: pagoEl.value,
       items: items.map(prod => ({ id: prod.id, nombre: prod.nombre, qty: cart[prod.id], precio: prod.precio })),
