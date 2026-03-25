@@ -1235,7 +1235,7 @@ function enviarPedido() {
   const basicaItems  = items.filter(p => p.cat === 'basica');
   const itemsPartes = [];
   if (premiumItems.length > 0) {
-    itemsPartes.push(enc('🍕 Premium (individuales):'));
+    itemsPartes.push('%F0%9F%8D%95%20*Premium%20(individuales)%3A*');
     premiumItems.forEach(prod => {
       const q = cart[prod.id];
       itemsPartes.push(enc('  · ' + prod.nombre + ' ×' + q + ' — ' + ars(q * prod.precio)));
@@ -1243,25 +1243,34 @@ function enviarPedido() {
   }
   if (basicaItems.length > 0) {
     if (premiumItems.length > 0) itemsPartes.push('');
-    itemsPartes.push(enc('📦 Packs básicos (x2):'));
+    itemsPartes.push('%F0%9F%93%A6%20*Packs%20b%C3%A1sicos%20(x2)%3A*');
     basicaItems.forEach(prod => {
       const q = cart[prod.id];
       itemsPartes.push(enc('  · ' + prod.nombre + ' ×' + q + ' — ' + ars(q * prod.precio)));
     });
   }
 
+  const totalPz = totalPizzas();
   const partes = [
-    EM.r + '%20*Nuevo%20Pedido%20%C2%B7%20' + enc(fecha) + '*',
+    EM.r + '%20*NUEVO%20PEDIDO%20%E2%80%94%20MALEU%20CLUBES*',
+    EM.p + '%20*' + totalPz + '%20pizza' + (totalPz!==1?'s':'') + '*',
     '',
     ...itemsPartes,
     '',
+    _sep,
     EM.m + '%20*TOTAL%3A%20' + enc(totalStr) + '*',
+    _sep,
+    '',
+    EM.u + '%20*Responsable%3A*%20' + enc(nombre),
+    EM.c + '%20*Club%3A*%20' + enc(club),
+    EM.s + '%20*Deporte%3A*%20' + enc(deporte),
+    EM.g + '%20*Grupo%3A*%20' + enc(grupo),
+    EM.t + '%20*WhatsApp%3A*%20' + enc(telefono),
+    EM.d + '%20*Entrega%3A*%20Viernes%20' + enc(fechaViernes) + '%20%C2%B7%20a%20coordinar',
+    EM.k + '%20*Pago%3A*%20' + enc(pagoEl.value),
     '',
     _sep,
-    EM.u + '%20*Responsable%3A*%20'  + enc(nombre),
-    EM.t + '%20*WhatsApp%3A*%20'     + enc(telefono),
-    EM.d + '%20*Entrega%3A*%20Viernes%20' + enc(fechaViernes) + '%20%C2%B7%20a%20coordinar',
-    EM.k + '%20*Pago%3A*%20'         + enc(pagoEl.value),
+    '%F0%9F%A7%A1%20_' + enc('¡Gracias por elegirnos!') + '_',
   ];
 
   // Registrar en Sheets
