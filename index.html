@@ -538,6 +538,28 @@
     .cart-badge.bounce { animation:badgeBounce .4s cubic-bezier(.2,.8,.3,1.4); }
     @keyframes badgeBounce { 0%{transform:scale(1)} 40%{transform:scale(1.45)} 100%{transform:scale(1)} }
 
+    /* ─── SOLAPAS CATEGORÍA ─────────────────────────────────── */
+    .cat-tabs {
+      position:sticky; top:56px; z-index:99;
+      background:var(--white); border-bottom:1.5px solid var(--cream);
+      box-shadow:0 2px 10px rgba(51,28,28,.07);
+      display:flex; gap:.4rem; padding:.6rem 1rem;
+      justify-content:center;
+    }
+    .cat-tab {
+      background:transparent; border:1.5px solid var(--cream-dark);
+      border-radius:50px; padding:.45rem .9rem;
+      font-family:var(--font); font-size:.82rem; font-weight:600;
+      color:var(--brown-mid); cursor:pointer;
+      transition:background .15s, border-color .15s, color .15s;
+      white-space:nowrap;
+    }
+    .cat-tab:hover { border-color:var(--orange); color:var(--brown); }
+    .cat-tab.active {
+      background:var(--orange); border-color:var(--orange);
+      color:#fff; font-weight:700;
+    }
+
     /* ─── RESPONSIVE ──────────────────────────────────────────── */
     @media(max-width:639px){ .catalog { padding-bottom:5.5rem; } }
   </style>
@@ -571,6 +593,12 @@
 </section>
 
 
+<!-- ═══ SOLAPAS ════════════════════════════════════════════════ -->
+<nav class="cat-tabs" id="cat-tabs">
+  <button class="cat-tab active" onclick="scrollToCat('premium')">🍕 Pizza Premium</button>
+  <button class="cat-tab" onclick="scrollToCat('basica')">📦 Pizza Básica</button>
+</nav>
+
 <!-- ═══ CATÁLOGO ══════════════════════════════════════════════ -->
 <div class="catalog" id="catalogo">
   <div class="helper-banner">
@@ -582,7 +610,7 @@
   </div>
 
   <!-- ── Pizzas Premium (individuales) ── -->
-  <div class="cat-section">
+  <div class="cat-section" id="cat-premium">
     <div class="cat-header">
       <div class="cat-title">🍕 Pizzas Premium (individuales)</div>
       <div class="cat-nota">1 pizza grande por unidad</div>
@@ -693,7 +721,7 @@
   </div>
 
   <!-- ── Pizzas Básicas (pack x2) ── -->
-  <div class="cat-section">
+  <div class="cat-section" id="cat-basica">
     <div class="cat-header">
       <div class="cat-title">📦 Pizzas Básicas (pack x2)</div>
       <div class="cat-nota">2 pizzas grandes por pack</div>
@@ -1288,10 +1316,45 @@ function loadClientData() {
   } catch(e){}
 }
 
+/* ── SOLAPAS ─────────────────────────────────────────────── */
+function scrollToCat(cat) {
+  const section = $id('cat-' + cat);
+  if (!section) return;
+  section.scrollIntoView({ behavior:'smooth', block:'start' });
+  setActiveTab(cat);
+}
+function setActiveTab(cat) {
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.textContent.toLowerCase().includes(cat === 'premium' ? 'premium' : 'básica'));
+  });
+}
+// Scroll-margin para que las secciones no queden tapadas por header + tabs
+function updateScrollMargins() {
+  const header = document.querySelector('header');
+  const tabs = $id('cat-tabs');
+  if (header && tabs) {
+    const total = header.offsetHeight + tabs.offsetHeight + 8;
+    document.querySelectorAll('.cat-section').forEach(s => { s.style.scrollMarginTop = total + 'px'; });
+    tabs.style.top = header.offsetHeight + 'px';
+  }
+}
+// Observer para highlight de solapa activa
+const _tabObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const cat = entry.target.id.replace('cat-', '');
+      setActiveTab(cat);
+    }
+  });
+}, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+
 /* ── INIT ────────────────────────────────────────────────── */
 loadClientData();
 updateUI();
 $id('cart-badge').style.display = 'none';
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+document.querySelectorAll('.cat-section').forEach(s => _tabObs.observe(s));
 
 </script>
 </body>
