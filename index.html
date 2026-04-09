@@ -1009,8 +1009,16 @@ const PRODUCTOS = [
 const WA_NUMBER       = "5491155038905";
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmrG5YVSshcYezk8lXFx_uxb7NFGcb9EfTXc7dsIN4rZyj73CET4mk_aKPFPDY2wNi/exec";
 const HORARIOS        = { "Viernes": "a coordinar" };
+const STOCK_CSV_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTOq210U9LeSxvXbx_sdglHS0K9DZP8H_5pGXC-WwlMo8AE4UacIN0bpagQqAr79XeJNQ1Nm1eql271/pub?gid=792614962&single=true&output=csv';
+
+// Mapeo ID producto Clubes → abreviatura en hoja Productos
+const CLUBES_ABBR = {
+  'pmu':'PMu', 'pma':'PMa', 'pjq':'PJyQ', 'pcc':'PCC', 'pjm':'PJyM',
+  'pp1':'PPM', 'pp2':'PPJyQ', 'pp3':'PPCyQ',
+};
 
 let cart      = {};   // { productId: qty }
+let stockMap  = {};   // { productId: stock disponible }
 let _enviando = false;
 
 function $id(id){ return document.getElementById(id); }
@@ -1033,7 +1041,11 @@ function sugerencia(totalPizzasCount) {
 /* ── CARRITO ─────────────────────────────────────────────── */
 function addToCart(pid) {
   const prod = PRODUCTOS.find(p => p.id === pid);
-  cart[pid] = (cart[pid] || 0) + 1;
+  const avail = stockMap[pid];
+  if (avail !== undefined && avail <= 0) { toast('Sin stock de ' + prod.nombre); return; }
+  const newQty = (cart[pid] || 0) + 1;
+  if (avail !== undefined && newQty > avail) { toast('Solo quedan ' + avail + ' unidades'); return; }
+  cart[pid] = newQty;
   updateUI();
   toast('✓ ' + prod.nombre + ' agregado');
   const badge = $id('cart-badge');
@@ -1274,19 +1286,17 @@ function enviarPedido() {
     '%F0%9F%A7%A1%20_' + enc('¡Gracias por elegirnos!') + '_',
   ];
 
-  // Registrar en Sheets
-  fetch(APPS_SCRIPT_URL, {
-    method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'},
-    body: JSON.stringify({
-      canal: 'Clubes',
-      fecha: new Date().toLocaleString('es-AR'),
-      nombre, club, deporte, grupo,
-      telefono, dia:'Viernes', horario:'a coordinar',
-      pago: pagoEl.value,
-      items: items.map(prod => ({ id: prod.id, nombre: prod.nombre, qty: cart[prod.id], precio: prod.precio })),
-      total
-    })
-  }).catch(()=>{});
+  // Registrar en Sheets con retry
+  const orderData = {
+    canal: 'Clubes',
+    fecha: new Date().toLocaleString('es-AR'),
+    nombre, club, deporte, grupo,
+    telefono, dia:'Viernes', horario:'a coordinar',
+    pago: pagoEl.value,
+    items: items.map(prod => ({ id: prod.id, nombre: prod.nombre, qty: cart[prod.id], precio: prod.precio })),
+    total
+  };
+  _sendWithRetry(orderData, 3);
 
   // Feedback botón
   _enviando = true;
@@ -1358,6 +1368,76 @@ const _tabObs = new IntersectionObserver((entries) => {
   });
 }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
 
+/* ── STOCK ──────────────────────────────────────────────── */
+function fetchStock() {
+  fetch(STOCK_CSV_URL).then(r => r.text()).then(csv => {
+    const rows = csv.split('\n').map(r => r.split(','));
+    stockMap = {};
+    PRODUCTOS.forEach(p => {
+      const abbr = CLUBES_ABBR[p.id];
+      if (!abbr) return;
+      for (let i = 1; i < rows.length; i++) {
+        if ((rows[i][2] || '').trim() === abbr) {
+          stockMap[p.id] = parseInt(rows[i][7]) || 0; // col H = Stock Disponible
+          break;
+        }
+      }
+    });
+    updateStockBadges();
+  }).catch(() => {});
+}
+function updateStockBadges() {
+  PRODUCTOS.forEach(p => {
+    const card = $id('product-card-' + p.id);
+    if (!card) return;
+    const avail = stockMap[p.id];
+    const btn = $id('add-btn-' + p.id);
+    let badge = card.querySelector('.stock-badge');
+    if (!badge) { badge = document.createElement('span'); badge.className = 'stock-badge'; badge.style.cssText = 'display:block;text-align:center;margin-top:4px;font-size:11px;'; card.querySelector('.product-footer').appendChild(badge); }
+    if (avail === undefined) { badge.textContent = ''; return; }
+    if (avail <= 0) {
+      badge.textContent = 'Sin stock'; badge.style.color = '#c0392b'; badge.style.fontWeight = '700';
+      if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; btn.textContent = 'Sin stock'; }
+    } else if (avail <= 5) {
+      badge.textContent = 'Quedan ' + avail; badge.style.color = '#e67e22'; badge.style.fontWeight = '600';
+      if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+    } else {
+      badge.textContent = ''; if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+    }
+  });
+}
+setInterval(fetchStock, 60000);
+
+/* ── RETRY + BACKUP ────────────────────────────────────── */
+function _sendWithRetry(data, retries) {
+  fetch(APPS_SCRIPT_URL, {
+    method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'},
+    body: JSON.stringify(data)
+  }).catch(() => {
+    if (retries > 1) {
+      setTimeout(() => _sendWithRetry(data, retries - 1), 2000);
+    } else {
+      // Guardar en localStorage como backup
+      try {
+        const pending = JSON.parse(localStorage.getItem('maleu_pending_orders') || '[]');
+        pending.push({ data, ts: Date.now() });
+        localStorage.setItem('maleu_pending_orders', JSON.stringify(pending));
+        toast('Pedido guardado localmente — se reenviará');
+      } catch(e) {}
+    }
+  });
+}
+function _retryPendingOrders() {
+  try {
+    const pending = JSON.parse(localStorage.getItem('maleu_pending_orders') || '[]');
+    if (pending.length === 0) return;
+    const order = pending.shift();
+    localStorage.setItem('maleu_pending_orders', JSON.stringify(pending));
+    _sendWithRetry(order.data, 2);
+  } catch(e) {}
+}
+setInterval(_retryPendingOrders, 30000);
+
 /* ── INIT ────────────────────────────────────────────────── */
 loadClientData();
 updateUI();
@@ -1365,6 +1445,8 @@ $id('cart-badge').style.display = 'none';
 updateScrollMargins();
 window.addEventListener('resize', updateScrollMargins);
 document.querySelectorAll('.cat-section').forEach(s => _tabObs.observe(s));
+fetchStock();
+_retryPendingOrders();
 
 </script>
 </body>
